@@ -9,6 +9,10 @@ app.use(cors());
 // استبدل المفتاح بالخاص بك
 const genAI = new GoogleGenerativeAI("AQ.Ab8RN6KucTkLroyj8QHfq9f05lqYJWEThXG8d9y4KSBz1Uf5yg");
 
+app.get('/test', (req, res) => {
+    res.json({ message: "أنا السيرفر وأسمعك بوضوح!" });
+});
+
 app.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
