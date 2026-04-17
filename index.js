@@ -28,10 +28,10 @@ app.post('/chat', async (req, res) => {
             return res.status(400).json({ error: "الرسالة فارغة" });
         }
 
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-pro",
-            systemInstruction: "أنت مساعد ذكي خبير في تقنية المعلومات والإلكترونيات لمنصة الوطنية لتعلم البرمجة."
-        });
+       const model = genAI.getGenerativeModel({ 
+    model: "gemini-1.5-flash-latest", // ✅ هذا التعديل ضروري
+    systemInstruction: "أنت مساعد ذكي خبير في تقنية المعلومات..."
+});
         
         const result = await model.generateContent(message);
         const response = await result.response;
