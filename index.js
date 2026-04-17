@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors()); 
 
 // استبدل المفتاح بالخاص بك
-const genAI = new GoogleGenerativeAI("AIzaSyDXRAev2PBlVKiEKuxEJzWUyXW7qtGMNa0");
+const genAI = new GoogleGenerativeAI("AQ.Ab8RN6J3w2HZlQ0Bv4gzJRB5_9bCJpYmBwLaNKnQbq3XjVgicA");
 
 app.post('/chat', async (req, res) => {
     try {
