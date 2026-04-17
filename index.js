@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors()); 
 
 // مفتاح الـ API الخاص بك الذي استخرجناه بنجاح
-const genAI = new GoogleGenerativeAI("AQ.Ab8RN6KpLdFXYzZuogbEPR2miRZmJvARwNHJQfFRnxE7Z8x-pA");
+const genAI = new GoogleGenerativeAI("AQ.Ab8RN6Lf9ipkFGL9yj4hAORp9ke09_JPrO5P66Bj1G3yjx-yqQ");
 // رابط للاختبار: افتح الرابط في المتصفح لتتأكد أن السيرفر يعمل
 app.get('/', (req, res) => {
     res.send("Proxy Server is Running!");
