@@ -38,13 +38,13 @@ app.post('/chat', async (req, res) => {
         const text = response.text();
 
         res.json({ text: text });
-    } catch (error) {
-        console.error("خطأ في الاتصال بجوجل:", error);
-        res.status(500).json({ 
-            error: "حدث خطأ في السيرفر الوسيط", 
-            details: error.message 
-        });
-    }
+ } catch (error) {
+    console.error("Gemini Error Details:", error); // هذا سيظهر في سجلات Vercel السوداء
+    res.status(500).json({ 
+        error: "حدث خطأ في السيرفر الوسيط", 
+        details: error.message 
+    });
+}
 });
 
 // التعديل الأهم لـ Vercel:
