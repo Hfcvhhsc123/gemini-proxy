@@ -4,54 +4,31 @@ const cors = require('cors');
 
 const app = express();
 
-// إعدادات لضمان قبول الطلبات من المتصفح ومن تطبيق فلاتر (CORS)
 app.use(express.json());
 app.use(cors()); 
 
-// 🔐 مفتاح الـ API الصافي والخاص بك مباشرة بدون أي زيادة يدوية ليعمل بشكل سليم
+// تأكد من وضع المفتاح كما نسخته من جوجل تماماً بين القوسين
 const genAI = new GoogleGenerativeAI("AQ.Ab8RN6LiW0C5wa95eN5jbikmDbu74rvw9-ndn87PJ-3OuxFabw");
 
-// رابط للاختبار الأساسي للتأكد أن السيرفر يعمل أونلاين
 app.get('/', (req, res) => {
     res.send("Proxy Server is Running!");
 });
 
-// المسار الرئيسي لاستقبال المحادثات من تطبيق فلاتر
 app.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
+        if (!message) return res.status(400).json({ error: "الرسالة فارغة" });
 
-        if (!message) {
-            return res.status(400).json({ error: "الرسالة فارغة" });
-        }
-
-        // تهيئة موديل جيميناي السريع والمستقر
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash" 
-        });
-        
-        // إرسال نص المحادثة إلى خوادم جوجل جيميناي
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const result = await model.generateContent(message);
         const response = await result.response;
-        const text = response.text();
-
-        // إعادة الإجابة بصيغة JSON يستقبلها الفلاتر عبر متغير "text"
-        res.json({ text: text });
-
+        
+        // نرسل الرد في كائن JSON واضح
+        res.json({ reply: response.text() });
     } catch (error) {
-        console.error("Gemini Error Details:", error);
-        res.status(500).json({ 
-            error: "حدث خطأ في السيرفر الوسيط", 
-            details: error.message 
-        });
+        console.error("Gemini Error:", error);
+        res.status(500).json({ error: "فشل الاتصال بجوجل", details: error.message });
     }
 });
 
-// التعديل الأهم لتعمل الـ Serverless Functions بشكل سليم على Vercel
 module.exports = app;
-
-// في حال رغبتك بتشغيل وتجربة السيرفر محلياً على جهازك
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-}
