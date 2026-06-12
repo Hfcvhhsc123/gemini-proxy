@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 // تأكد من وضع المفتاح هنا مباشرة داخل علامات التنصيص
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "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";
 
 app.post('/chat', async (req, res) => {
     try {
