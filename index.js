@@ -1,9 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+// Serve static files from public directory
+app.use(express.static('public'));
 
 app.post('/chat', async (req, res) => {
     try {
