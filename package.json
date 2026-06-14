@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "cors": "^2.8.5",
     "express": "^5.2.1"
   }
