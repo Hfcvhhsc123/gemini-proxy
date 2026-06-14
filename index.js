@@ -9,12 +9,9 @@ app.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
         
-        // نستخدم خدمة API مجانية ومباشرة
         const response = await fetch("https://api.pawan.krd/v1/chat/completions", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 "model": "pai-001",
                 "messages": [{ "role": "user", "content": message }]
@@ -22,7 +19,15 @@ app.post('/chat', async (req, res) => {
         });
 
         const data = await response.json();
-        res.json({ text: data.choices[0].message.content });
+        
+        // التحقق مما إذا كان الرد يحتوي على الإجابة المتوقعة
+        if (data && data.choices && data.choices.length > 0) {
+            res.json({ text: data.choices[0].message.content });
+        } else {
+            // إذا كان الرد غير مفهوم أو فارغ
+            console.error("رد غير متوقع من السيرفر:", data);
+            res.status(500).json({ error: "السيرفر الخارجي لم يرسل إجابة صحيحة" });
+        }
         
     } catch (error) {
         res.status(500).json({ error: error.message });
